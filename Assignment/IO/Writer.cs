@@ -2,9 +2,9 @@
 {
     using System;
 
-    public class Drawer : IDrawer
+    public class Writer : IWriter
     {
-        public void Draw(string output)
+        public void Write(string output)
         {
             Console.Write(output);
         }

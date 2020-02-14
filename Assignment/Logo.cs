@@ -3,7 +3,7 @@
     using System;
     using System.Text;
 
-    public class Logo
+    public class Logo : ILogo
     {
         private const char LogoPart = '*';
         private const char FieldPart = '-';
@@ -12,9 +12,23 @@
 
         public Logo(int size)
         {
-            this.size = size;
-            this.field = new char[size + 1][];
+            this.Size = size;
+            this.field = new char[this.Size + 1][];
             this.Design();
+        }
+
+        public int Size
+        {
+            get => this.size;
+            private set
+            {
+                if (value <= 2 || value > 10000 || value % 2 == 0)
+                {
+                    throw new ArgumentException("Entered size does not corresponds to constraints! Please try again.");
+                }
+
+                this.size = value;
+            }
         }
 
         public override string ToString()
@@ -33,9 +47,9 @@
 
         private void Design()
         {
-            for (int row = 0; row < this.size + 1; row++)
+            for (int row = 0; row < this.Size + 1; row++)
             {
-                this.field[row] = new char[this.size * 5];
+                this.field[row] = new char[this.Size * 5];
             }
 
             for (int r = 0; r < this.field.GetLength(0); r++)
@@ -51,29 +65,29 @@
         {
             Func<int, int, bool> startPoint1 = (row, col) =>
             {
-                var start = this.size - 1 - row;
-                return col > start && col <= start + this.size;
+                var start = this.Size - 1 - row;
+                return col > start && col <= start + this.Size;
             };
 
             Func<int, int, bool> startPoint2 = (row, col) =>
             {
-                var start = this.size - 1 + row;
-                return col > start && col <= start + this.size;
+                var start = this.Size - 1 + row;
+                return col > start && col <= start + this.Size;
             };
 
             Func<int, int, bool> startPoint3 = (row, col) =>
             {
-                var start = (this.size * 3) - 1 - row;
-                return col > start && col <= start + this.size;
+                var start = (this.Size * 3) - 1 - row;
+                return col > start && col <= start + this.Size;
             };
 
             Func<int, int, bool> startPoint4 = (row, col) =>
             {
-                var start = (this.size * 3) - 1 + row;
-                return col > start && col <= start + this.size;
+                var start = (this.Size * 3) - 1 + row;
+                return col > start && col <= start + this.Size;
             };
 
             return startPoint1(r, c) || startPoint2(r, c) || startPoint3(r, c) || startPoint4(r, c);
-        }        
+        }
     }
 }
